@@ -343,7 +343,7 @@ export default function GlobalComparisonChart({ userBaselineTonne, profile }: Gl
         </AnimatePresence>
 
         {/* COMPARISON BARS */}
-        <div className="space-y-6 relative pb-10 min-h-[360px]">
+        <figure role="img" aria-label={`Global footprint comparison chart. Projects your annual signature of ${simulatedUserTonne} tonnes CO2 against global benchmarks and targets.`} className="space-y-6 relative pb-10 min-h-[360px]">
           
           {/* Vertical sustainable limit line helper */}
           <div className="absolute top-0 bottom-0 pointer-events-none border-l-2 border-dashed border-emerald-400/80 z-10" style={{ left: `${(1.5 / maxVal) * 100}%` }}>
@@ -477,7 +477,7 @@ export default function GlobalComparisonChart({ userBaselineTonne, profile }: Gl
               );
             })}
           </div>
-        </div>
+        </figure>
 
         {/* HIGH IMPACT DYNAMIC INSIGHTS PANEL (InsightAgent layer) */}
         <div className="bg-emerald-50/40 p-4 rounded-2xl border border-emerald-100/50 flex gap-3 my-4">

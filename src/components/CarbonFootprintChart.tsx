@@ -482,7 +482,7 @@ export default function CarbonFootprintChart({ logs, profile, triggerToast }: Ca
           
           {/* Main Chart Column */}
           <div className="lg:col-span-8">
-            <div className="w-full h-[280px] relative">
+            <figure role="img" aria-label={`Carbon emissions and savings chart showing trajectory over time. Current view mode: ${viewType}`} className="w-full h-[280px] relative">
               <AnimatePresence mode="wait">
                 {viewType === "category" ? (
                   <motion.div
@@ -666,7 +666,7 @@ export default function CarbonFootprintChart({ logs, profile, triggerToast }: Ca
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </figure>
             
             {/* Legend Companion for Sector Breakdown */}
             {viewType !== "category" && (

@@ -10,11 +10,41 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import { GridScraperOrchestrator } from "./src/utils/GridScraperOrchestrator";
+import rateLimit from "express-rate-limit";
+import { EMISSION_FACTORS } from "./src/data/emissionFactors";
+import { updateStreak } from "./src/utils/streakUtils";
 
 dotenv.config();
 
 const app = express();
 const PORT = 3000;
+
+// Strict limit for AI endpoints — 20 calls per minute per IP
+const aiRateLimit = rateLimit({
+  windowMs: 60 * 1000,  // 1 minute window
+  max: 20,              // max 20 requests per window
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: "Too many requests. Please wait a moment before trying again."
+  }
+});
+
+// More lenient limit for state reads
+const readRateLimit = rateLimit({
+  windowMs: 60 * 1000,
+  max: 100,
+  message: { error: "Too many requests." }
+});
+
+// Apply limits
+app.use("/api/chat", aiRateLimit);
+app.use("/api/logs/nlp", aiRateLimit);
+app.use("/api/onboard", aiRateLimit);
+app.use("/api/insights/refresh", aiRateLimit);
+app.use("/api/grid/advisory", aiRateLimit);
+app.use("/api/climate-news", aiRateLimit);
+app.use("/api/state", readRateLimit);
 
 // Lazy-evaluated GoogleGenAI client for startup safety and zero-crash profile
 let aiClient: GoogleGenAI | null = null;
@@ -38,7 +68,7 @@ function getAiClient(): GoogleGenAI {
 
 // Resilient Gemini generateContent helper to fall back to alternative models during 503 "high demand" periods:
 async function generateContentResilient(options: any) {
-  const modelsToTry = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
+  const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-1.5-pro"];
   const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
   let lastError = null;
 
@@ -195,29 +225,7 @@ function saveState(state: any) {
   }
 }
 
-// Standard emission factors based on IPCC guidelines
-const EMISSION_FACTORS: Record<string, { factor: number; unit: string }> = {
-  car_petrol: { factor: 0.24, unit: "km" },
-  car_diesel: { factor: 0.22, unit: "km" },
-  car_ev: { factor: 0.05, unit: "km" },
-  car_hybrid: { factor: 0.12, unit: "km" },
-  flight_long: { factor: 0.15, unit: "km" },
-  flight_short: { factor: 0.20, unit: "km" },
-  train: { factor: 0.04, unit: "km" },
-  bus: { factor: 0.08, unit: "km" },
-  electricity: { factor: 0.45, unit: "kWh" },
-  gas: { factor: 0.18, unit: "kWh" },
-  meat_beef: { factor: 27.0, unit: "kg" },
-  meat_pork_poultry: { factor: 6.0, unit: "kg" },
-  diet_vegan_day: { factor: 2.9, unit: "day" },
-  diet_vegetarian_day: { factor: 3.8, unit: "day" },
-  diet_meat_day: { factor: 7.2, unit: "day" },
-  diet_flexitarian_day: { factor: 4.5, unit: "day" },
-  clothing_item: { factor: 15.0, unit: "item" },
-  electronics_item: { factor: 80.0, unit: "item" },
-  general_item: { factor: 2.5, unit: "item" },
-  hotel_night: { factor: 15.0, unit: "night" },
-};
+
 
 app.use(express.json({ limit: "15mb" }));
 
@@ -236,6 +244,12 @@ app.post("/api/state/reset", (req, res) => {
 
 // 2a. Dynamic state override endpoint (Optimized to increase testability of gamification levels, stats, and badges)
 app.post("/api/state/override", (req, res) => {
+  if (process.env.NODE_ENV === "production") {
+    return res.status(403).json({
+      error: "This endpoint is only available in development mode."
+    });
+  }
+
   try {
     const overrides = req.body;
     if (!overrides || typeof overrides !== "object") {
@@ -388,8 +402,28 @@ app.post("/api/onboard", async (req, res) => {
 // 4. Manual Activity Logging
 app.post("/api/logs/manual", (req, res) => {
   const { category, activity_name, quantity, unit, kg_co2 } = req.body;
+
+  // Validate required fields
   if (!category || !activity_name || quantity === undefined) {
-    return res.status(400).json({ error: "Missing log fields" });
+    return res.status(400).json({ error: "Missing required fields: category, activity_name, quantity" });
+  }
+
+  // Validate types and ranges
+  const validCategories = ["transport", "diet", "energy", "shopping", "travel"];
+  if (!validCategories.includes(category)) {
+    return res.status(400).json({ error: `Invalid category. Must be one of: ${validCategories.join(", ")}` });
+  }
+
+  if (typeof quantity !== "number" || quantity < 0 || quantity > 100000) {
+    return res.status(400).json({ error: "quantity must be a positive number under 100,000" });
+  }
+
+  if (kg_co2 !== undefined && (typeof kg_co2 !== "number" || kg_co2 < 0)) {
+    return res.status(400).json({ error: "kg_co2 must be a non-negative number" });
+  }
+
+  if (typeof activity_name !== "string" || activity_name.length > 200) {
+    return res.status(400).json({ error: "activity_name must be a string under 200 characters" });
   }
 
   const state = loadState();
@@ -1173,40 +1207,7 @@ app.post("/api/chat", async (req, res) => {
 });
 
 
-// Helper utility to calculate and update streak states
-function updateStreak(state: any) {
-  const todayStr = new Date().toISOString().split("T")[0];
-  const lastActiveStr = state.streaks.last_active_date;
 
-  if (!lastActiveStr) {
-    state.streaks.current = 1;
-    state.streaks.last_active_date = todayStr;
-  } else if (lastActiveStr === todayStr) {
-    // Already active today, streak safe
-  } else {
-    // Check if consecutive day
-    const lastDate = new Date(lastActiveStr);
-    const todayDate = new Date(todayStr);
-    
-    // Set both times to midnight to calculate difference in full days
-    lastDate.setHours(0, 0, 0, 0);
-    todayDate.setHours(0, 0, 0, 0);
-    
-    const diffTime = Math.abs(todayDate.getTime() - lastDate.getTime());
-    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 1) {
-      state.streaks.current += 1;
-      if (state.streaks.current > state.streaks.best) {
-        state.streaks.best = state.streaks.current;
-      }
-    } else if (diffDays > 1) {
-      // Streak broken
-      state.streaks.current = 1;
-    }
-    state.streaks.last_active_date = todayStr;
-  }
-}
 
 // In-memory volatile Indian grid load state store representing RLDCs (Regional Load Despatch Centres)
 interface GridZoneData {
@@ -1762,4 +1763,9 @@ async function startServer() {
   });
 }
 
-startServer();
+// Start server only when run directly (not under test environments)
+if (process.env.NODE_ENV !== "test") {
+  startServer();
+}
+
+export { app };

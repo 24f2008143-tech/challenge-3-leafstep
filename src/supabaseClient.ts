@@ -5,12 +5,30 @@
 
 import { createClient } from "@supabase/supabase-js";
 
-// Grab configurations. Default to the provided user settings for instant out-of-the-box operation.
-const meta = import.meta as any;
-const supabaseUrl = meta.env?.VITE_SUPABASE_URL || "https://onunjprvfcynosgyaybx.supabase.co";
-const supabaseAnonKey = meta.env?.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9udW5qcHJ2ZmN5bm9zZ3lheWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTQzOTMsImV4cCI6MjA5Njc3MDM5M30.COSu-u1BYXNnk81ge3MhxAArI52amIx5P4CeI004mEA";
+const getEnvVar = (name: string): string => {
+  if (typeof window === "undefined") {
+    // Node.js / Server environment
+    return (process?.env?.[name] as string) || "";
+  } else {
+    // Browser environment
+    return ((import.meta as any).env?.[name] as string) || "";
+  }
+};
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabaseUrl = getEnvVar("VITE_SUPABASE_URL");
+const supabaseAnonKey = getEnvVar("VITE_SUPABASE_ANON_KEY");
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn(
+    "[Leafstep] Supabase env vars are missing. " +
+    "Database syncing will be unavailable. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file."
+  );
+}
+
+export const supabase = createClient(
+  supabaseUrl || "https://placeholder.supabase.co",
+  supabaseAnonKey || "placeholder_key"
+);
 
 /**
  * Interface representing the database column mappings

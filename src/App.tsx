@@ -2413,7 +2413,7 @@ export default function App() {
 
             {/* INTEGRATED AI CLIMATE COACH */}
             {activeTab === "coach" && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in">
+              <section role="tabpanel" id="panel-coach" aria-labelledby="tab_coach" tabIndex={0} className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in">
                 
                 {/* Left Column: Guidelines / Tips on what to ask */}
                 <div className="lg:col-span-4 bg-white border border-slate-100 rounded-3xl p-6 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] transition-transform hover:-translate-y-1 space-y-4">
@@ -2542,12 +2542,12 @@ export default function App() {
 
                 </div>
 
-              </div>
+              </section>
             )}
 
             {/* BENCHMARKS & GLOBAL TARGETS TAB */}
             {activeTab === "benchmarks" && (
-              <div className="space-y-6 animate-fade-in max-w-3xl mx-auto font-sans">
+              <section role="tabpanel" id="panel-benchmarks" aria-labelledby="tab_benchmarks" tabIndex={0} className="space-y-6 animate-fade-in max-w-3xl mx-auto font-sans">
                 <div className="bg-emerald-100 border border-emerald-100 text-slate-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)]">
                   <div className="absolute right-0 bottom-0 w-1/3 h-full opacity-30 z-0">
                     <img 
@@ -2574,19 +2574,17 @@ export default function App() {
                   profile={state.profile} 
                 />
 
-
-
-              </div>
+              </section>
             )}
 
             {activeTab === "grid" && (
-              <div className="space-y-6 animate-fade-in font-sans">
+              <section role="tabpanel" id="panel-grid" aria-labelledby="tab_grid" tabIndex={0} className="space-y-6 animate-fade-in font-sans">
                 <GridOptimizer
                   state={state}
                   onSaveAndApplyState={saveAndApplyState}
                   triggerToast={triggerToast}
                 />
-              </div>
+              </section>
             )}
 
           </div>

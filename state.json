@@ -1,26 +1,12 @@
 {
   "user_id": "default_user",
-  "onboarded": true,
-  "profile": {
-    "name": "saikat",
-    "archetype": "Convenience-Driven Commuter",
-    "baseline_kg_co2_monthly": 920,
-    "answers": {
-      "transport": "car_petrol",
-      "diet": "diet_flexitarian_day",
-      "energy": "electricity",
-      "shopping": "general_item",
-      "travel": "medium"
-    },
-    "top_categories": [
-      "transport",
-      "travel"
-    ]
-  },
-  "leaf_points": 350,
+  "onboarded": false,
+  "profile": null,
+  "leaf_points": 450,
   "rank": "Sprouting",
   "badges": [
-    "onboarding_pioneers_badge"
+    "onboarding_pioneers_badge",
+    "test_badge_unique_xyz"
   ],
   "carbon_iq": 75,
   "logs": [
@@ -48,57 +34,37 @@
   "streaks": {
     "current": 2,
     "best": 5,
-    "last_active_date": "2026-06-16"
+    "last_active_date": "2026-06-17"
   },
   "recommended_actions": [
     {
-      "id": "act_onboard_0_1781669848331",
+      "id": "act_1",
       "category": "transport",
-      "title": "Swap Two Car Commutes for Active Transit",
-      "description": "Replace two drives per week with walking, cycling, or public transport to reduce petrol consumption.",
-      "avg_kg_co2_saved": 85,
+      "title": "Try Bike Commute Once a Week",
+      "description": "Replace a 10km car ride with a bicycle or electric scooter commute.",
+      "avg_kg_co2_saved": 2.4,
       "difficulty": "Medium",
-      "why_matters": "Single-occupancy petrol vehicles are among the highest contributors to personal greenhouse gas emissions. Transitioning just two trips a week directly scales down fossil fuel combustion.",
+      "why_matters": "Commuting by bike produces 100% zero tailpipe emissions and improves cardiovascular health.",
       "completed": false
     },
     {
-      "id": "act_onboard_1_1781669848331",
-      "category": "travel",
-      "title": "Prioritize High-Speed Rail for Regional Journeys",
-      "description": "For medium-distance domestic trips, opt for trains instead of flying or solo driving.",
-      "avg_kg_co2_saved": 110,
-      "difficulty": "Medium",
-      "why_matters": "Aviation has an intense warming impact due to high-altitude radiative forcing. Trains operate at a fraction of the carbon intensity per passenger-kilometer.",
-      "completed": false
-    },
-    {
-      "id": "act_onboard_2_1781669848331",
-      "category": "energy",
-      "title": "Switch to a 100% Green Electricity Plan",
-      "description": "Contact your utility provider to transition your standard electricity plan to a certified renewable energy source tariff.",
-      "avg_kg_co2_saved": 95,
-      "difficulty": "Easy",
-      "why_matters": "Decarbonizing your home grid supply eliminates emissions associated with coal and gas power plants, making your daily appliance use net-zero.",
-      "completed": false
-    },
-    {
-      "id": "act_onboard_3_1781669848331",
+      "id": "act_2",
       "category": "diet",
-      "title": "Elevate to Weekend Plant-Based eating",
-      "description": "Build on your flexitarian baseline by committing to 100% plant-based meals every Saturday and Sunday.",
-      "avg_kg_co2_saved": 35,
+      "title": "Introduce a Meatless Monday",
+      "description": "Shift for a whole day to vegetarian meals containing zero red meat.",
+      "avg_kg_co2_saved": 3.4,
       "difficulty": "Easy",
-      "why_matters": "While a flexitarian diet is great, further reducing dairy and meat intake during weekends dramatically curtails global agricultural emissions and land-use pressure.",
+      "why_matters": "Red meat is one of the highest contributors to household climate footprints due to land land-use and methane emissions.",
       "completed": false
     },
     {
-      "id": "act_onboard_4_1781669848331",
-      "category": "transport",
-      "title": "Practice Eco-Driving Habits",
-      "description": "Optimize your driving style by maintaining steady speeds, accelerating gently, and turning off the engine during idling.",
-      "avg_kg_co2_saved": 30,
+      "id": "act_3",
+      "category": "energy",
+      "title": "Lower Thermostat by 1°C",
+      "description": "Slightly reduce heating temperature or adjust air-conditioning levels by 1°C.",
+      "avg_kg_co2_saved": 1.8,
       "difficulty": "Easy",
-      "why_matters": "Inefficient driving habits can waste up to 20% more fuel. Smoother mechanical operations yield immediate, measurable carbon and cost savings.",
+      "why_matters": "Climate control accounts for over 50% of typical home energy bills. A small adjustment scales down grid demand directly.",
       "completed": false
     }
   ],
@@ -106,7 +72,7 @@
     {
       "role": "model",
       "content": "Hello! I am your Leafstep Climate Coach. I can help you understand your footprint, suggest ways to save carbon, and automatically track your daily activities. Ask me anything, or say 'Coach, log a 15km EV drive' to try automated logging!",
-      "timestamp": "2026-06-17T04:16:20.340Z"
+      "timestamp": "2026-06-17T05:18:15.921Z"
     }
   ]
 }

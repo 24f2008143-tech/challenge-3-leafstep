@@ -296,12 +296,18 @@ export default function MilestoneProgressBar({ leafPoints = 350, currentRank = "
 
         {/* Visual Progress Track - Upgraded h-6 & Glow Effects */}
         <div 
+          role="progressbar"
+          aria-valuenow={Math.round(progressPercent)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={`Milestone progress: ${Math.round(progressPercent)}% towards next rank`}
           className="relative w-full h-6 rounded-full p-0.5 overflow-hidden shadow-inner flex items-center"
           style={{
             background: '#1C2A3A',
             border: '1px solid #2A3D50'
           }}
         >
+          <span className="sr-only">{Math.round(progressPercent)}% completed</span>
           <motion.div 
             className="h-full rounded-full relative overflow-hidden"
             initial={{ width: '0%' }}
