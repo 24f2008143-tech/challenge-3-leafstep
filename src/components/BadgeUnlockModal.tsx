@@ -53,13 +53,32 @@ export default function BadgeUnlockModal({
 }: BadgeUnlockModalProps) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [hasMounted, setHasMounted] = useState(false);
+  const cardRef = React.useRef<HTMLDivElement>(null);
 
   const tierColor = TIER_COLORS[badge.tier] || TIER_COLORS.seed;
   const tierBg = TIER_BGS[badge.tier] || TIER_BGS.seed;
 
   // Generate 24 randomized particles radiating outward from center
   useEffect(() => {
+    // Focus the card for screen readers / keyboard control
+    if (cardRef.current) {
+      cardRef.current.focus();
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
     setHasMounted(true);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
+  useEffect(() => {
     const generated: Particle[] = [];
     const palette = TIER_PARTICLE_COLORS[badge.tier] || TIER_PARTICLE_COLORS.seed;
     for (let i = 0; i < 24; i++) {
@@ -116,6 +135,11 @@ export default function BadgeUnlockModal({
       >
         {/* Modal Card wrapper */}
         <motion.div
+          ref={cardRef}
+          tabIndex={-1}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Badge Unlocked"
           initial={{ scale: 0.7, opacity: 0 }}
           animate={{ scale: [0.7, 1.05, 1], opacity: 1 }}
           transition={{
@@ -124,7 +148,7 @@ export default function BadgeUnlockModal({
             stiffness: 400,
             damping: 25,
           }}
-          className="relative max-w-sm w-full bg-[#0D1B2A] rounded-[24px] p-8 flex flex-col items-center justify-center text-center shadow-2xl"
+          className="relative max-w-sm w-full bg-[#0D1B2A] rounded-[24px] p-8 flex flex-col items-center justify-center text-center shadow-2xl focus:outline-none"
           style={{
             border: `1.5px solid ${tierColor}`,
             boxShadow: `0 10px 40px -10px ${tierColor}40, inset 0 0 20px rgba(0, 0, 0, 0.4)`,

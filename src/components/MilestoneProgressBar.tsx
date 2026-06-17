@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Award, Trees, ArrowUpRight, HelpCircle, ShieldCheck, ChevronRight, Info, Check, Zap, Trophy, Star } from "lucide-react";
 import { useCountUp } from "../hooks/useCountUp";
+import { getMilestoneTiers } from "../data/rankTiers";
 
 interface MilestoneProgressBarProps {
   leafPoints: number;
@@ -16,15 +17,13 @@ interface MilestoneTier {
   desc: string;
 }
 
-const MILESTONE_TIERS: MilestoneTier[] = [
-  { pts: 200, label: "Sprouting", badgeName: "Eco Apprentice", icon: "🌱", desc: "Starting your sustainable habit journey." },
-  { pts: 500, label: "Sapling", badgeName: "Sapling Steward", icon: "🌳", desc: "First major milestone threshold secured." },
-  { pts: 1000, label: "Bamboo Walker", badgeName: "Bamboo Walker Badge", icon: "🎋", desc: "Unlocking advanced energy conservation rules." },
-  { pts: 2000, label: "Grove Guardian", badgeName: "Forest Guardian", icon: "🛡️", desc: "Consistently mitigating municipal footprints." },
-  { pts: 4000, label: "Forest Keeper", badgeName: "Forest Keeper Rank", icon: "🌲", desc: "Elite ecological stewardship level." },
-  { pts: 7500, label: "Earth Steward", badgeName: "Climate Legend Master", icon: "🌍", desc: "Legendary status, steering grids in real time." },
-  { pts: 15000, label: "Carbon Champion", badgeName: "Carbon Champion Status", icon: "👑", desc: "Absolute pinnacle of preservation power." },
-];
+const MILESTONE_TIERS: MilestoneTier[] = getMilestoneTiers().map(tier => ({
+  pts: tier.minPoints,
+  label: tier.rank,
+  badgeName: tier.badgeName,
+  icon: tier.icon || "🌱",
+  desc: tier.desc || ""
+}));
 
 export default function MilestoneProgressBar({ leafPoints = 350, currentRank = "Sprouting" }: MilestoneProgressBarProps) {
   const [showMilestonesModal, setShowMilestonesModal] = useState(false);

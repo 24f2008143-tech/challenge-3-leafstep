@@ -1,7 +1,22 @@
 {
   "user_id": "default_user",
-  "onboarded": false,
-  "profile": null,
+  "onboarded": true,
+  "profile": {
+    "name": "saikat",
+    "archetype": "Commuter Heavyweight",
+    "baseline_kg_co2_monthly": 950,
+    "answers": {
+      "transport": "car_petrol",
+      "diet": "diet_flexitarian_day",
+      "energy": "electricity",
+      "shopping": "general_item",
+      "travel": "medium"
+    },
+    "top_categories": [
+      "transport",
+      "travel"
+    ]
+  },
   "leaf_points": 450,
   "rank": "Sprouting",
   "badges": [
@@ -38,33 +53,53 @@
   },
   "recommended_actions": [
     {
-      "id": "act_1",
+      "id": "act_onboard_0_1781678372776",
       "category": "transport",
-      "title": "Try Bike Commute Once a Week",
-      "description": "Replace a 10km car ride with a bicycle or electric scooter commute.",
-      "avg_kg_co2_saved": 2.4,
+      "title": "Adopt Eco-Driving Techniques",
+      "description": "Maintain steady speeds, reduce aggressive braking, and keep tires properly inflated to improve fuel efficiency by up to 15%.",
+      "avg_kg_co2_saved": 65,
+      "difficulty": "Easy",
+      "why_matters": "Internal combustion engines are significantly less efficient during rapid acceleration and idle, causing unnecessary carbon spikes.",
+      "completed": false
+    },
+    {
+      "id": "act_onboard_1_1781678372776",
+      "category": "transport",
+      "title": "Implement Carpooling or Multi-modal Commuting",
+      "description": "Coordinate with a colleague or use public transit twice a week to reduce the frequency of solo-petrol engine usage.",
+      "avg_kg_co2_saved": 110,
       "difficulty": "Medium",
-      "why_matters": "Commuting by bike produces 100% zero tailpipe emissions and improves cardiovascular health.",
+      "why_matters": "Reducing vehicle miles traveled is the single most effective way to lower personal CO2 emissions for car-dependent individuals.",
       "completed": false
     },
     {
-      "id": "act_2",
+      "id": "act_onboard_2_1781678372776",
+      "category": "travel",
+      "title": "Prioritize Direct Domestic Destinations",
+      "description": "Opt for closer vacation spots reached by train or bus instead of medium-haul flights.",
+      "avg_kg_co2_saved": 180,
+      "difficulty": "Medium",
+      "why_matters": "Aviation creates high-altitude emissions including water vapor and nitrogen oxides that have a higher warming impact than ground-based transport.",
+      "completed": false
+    },
+    {
+      "id": "act_onboard_3_1781678372776",
       "category": "diet",
-      "title": "Introduce a Meatless Monday",
-      "description": "Shift for a whole day to vegetarian meals containing zero red meat.",
-      "avg_kg_co2_saved": 3.4,
+      "title": "Meat-Free Mondays and Fridays",
+      "description": "Commit to two full days of plant-based eating each week to decrease dependency on high-impact livestock production.",
+      "avg_kg_co2_saved": 40,
       "difficulty": "Easy",
-      "why_matters": "Red meat is one of the highest contributors to household climate footprints due to land land-use and methane emissions.",
+      "why_matters": "Red meat production requires significantly more land, water, and feed resources, contributing to higher methane and CO2 output per calorie.",
       "completed": false
     },
     {
-      "id": "act_3",
+      "id": "act_onboard_4_1781678372776",
       "category": "energy",
-      "title": "Lower Thermostat by 1°C",
-      "description": "Slightly reduce heating temperature or adjust air-conditioning levels by 1°C.",
-      "avg_kg_co2_saved": 1.8,
+      "title": "Optimize Heating and Cooling Zones",
+      "description": "Install a programmable thermostat and lower the temperature by 2 degrees in unused rooms to reduce electricity consumption.",
+      "avg_kg_co2_saved": 35,
       "difficulty": "Easy",
-      "why_matters": "Climate control accounts for over 50% of typical home energy bills. A small adjustment scales down grid demand directly.",
+      "why_matters": "Energy efficiency in residential spaces reduces demand on the power grid, directly lowering your reliance on carbon-intensive energy sources.",
       "completed": false
     }
   ],

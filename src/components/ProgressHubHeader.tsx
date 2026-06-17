@@ -89,6 +89,7 @@ export default function ProgressHubHeader({
             onClick={onRefresh}
             className="text-[rgba(255,255,255,0.2)] hover:text-white transition-colors duration-150 cursor-pointer bg-none border-none p-0 focus:outline-none"
             title="Refresh statistics"
+            aria-label="Refresh statistics"
           >
             <RefreshCw className="w-[13px] h-[13px]" />
           </button>

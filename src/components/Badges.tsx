@@ -90,7 +90,7 @@ export const BadgesShowcase = ({ badgeIds = [], leafPoints = 350 }: BadgesShowca
       }
       return b;
     });
-    setLocalBadges(demoBadges);
+    setLocalBadges(demoBadges as BadgeData[]);
   }, []);
 
   // Compute live stats for the dashboard info box
@@ -117,7 +117,7 @@ export const BadgesShowcase = ({ badgeIds = [], leafPoints = 350 }: BadgesShowca
       if (b.id === "grid_guardian") return { ...b, progress: 75 };
       return b;
     });
-    setLocalBadges(reset);
+    setLocalBadges(reset as BadgeData[]);
   };
 
   // Action: Trigger a sequenced quest complete event causing next badge unlock

@@ -18,3 +18,7 @@ View your app in AI Studio: https://ai.studio/apps/97838d53-e7b9-4dcd-93b8-f36f8
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Known Limitations
+
+- **Single-User State Model**: Leafstep operates on a single-user local state architecture. State is read and written directly to a local JSON file (`state.json`), meaning concurrent multi-user environments are not supported. If multi-user support is required, the state logic should be migrated to a centralized database (such as Supabase, which has partial client setups prepared).

@@ -351,12 +351,11 @@ export default function IndiaGridMap({
               };
 
               // Label content depending on filter
-              const detailLabel = useMemo(() => {
-                if (!emissionRates) return "—";
-                return metricMode === "intensity" 
-                  ? `${emissionRates.intensity}%` 
-                  : `${emissionRates.grossHourlyEmissions >= 1000 ? (emissionRates.grossHourlyEmissions / 1000).toFixed(1) + 'kt' : Math.round(emissionRates.grossHourlyEmissions) + 't'}`;
-              }, [emissionRates, metricMode]);
+              const detailLabel = !emissionRates ? "—" : (
+                metricMode === "intensity"
+                  ? `${emissionRates.intensity}%`
+                  : `${emissionRates.grossHourlyEmissions >= 1000 ? (emissionRates.grossHourlyEmissions / 1000).toFixed(1) + 'kt' : Math.round(emissionRates.grossHourlyEmissions) + 't'}`
+              );
 
               return (
                 <button

@@ -126,7 +126,7 @@ export default function Badge({
         type: "spring",
         stiffness: 300,
         damping: 20,
-      }
+      } as any
     }
   };
 

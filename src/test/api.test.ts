@@ -1,12 +1,21 @@
 // @vitest-environment node
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect, beforeAll, beforeEach } from "vitest";
 import request from "supertest";
-import { app } from "../../server";
+import fs from "fs";
+import { app, STATE_FILE_PATH } from "../../server";
 
 beforeAll(() => {
   process.env.NODE_ENV = "test";
   process.env.VITE_SUPABASE_URL = "https://example.supabase.co";
   process.env.VITE_SUPABASE_ANON_KEY = "example_key";
+});
+
+beforeEach(() => {
+  if (fs.existsSync(STATE_FILE_PATH)) {
+    try {
+      fs.unlinkSync(STATE_FILE_PATH);
+    } catch (e) {}
+  }
 });
 
 describe("POST /api/logs/manual", () => {
