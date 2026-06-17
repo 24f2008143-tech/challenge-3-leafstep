@@ -167,16 +167,16 @@ export default function App() {
     if (cached !== null) {
       setIsTrophiesOpen(cached === "true");
     } else {
-      setIsTrophiesOpen(!isMobile);
+      setIsTrophiesOpen(true);
     }
 
     const cachedMilestone = localStorage.getItem("progressHubMilestoneOpen");
     if (cachedMilestone !== null) {
       setIsMilestoneOpen(cachedMilestone === "true");
     } else {
-      setIsMilestoneOpen(!isMobile);
+      setIsMilestoneOpen(true);
     }
-  }, [isMobile]);
+  }, []);
 
   const toggleTrophies = () => {
     setIsTrophiesOpen((prev) => {
