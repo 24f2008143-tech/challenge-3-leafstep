@@ -35,7 +35,7 @@ export default function LandingPage({ onTakeAction }: LandingPageProps) {
       <section className="pt-24 pb-32 md:pt-32 md:pb-48 relative overflow-hidden bg-emerald-100">
         <div className="absolute inset-0 right-0 w-full md:w-1/2 ml-auto z-0">
           <img 
-            src="/src/assets/images/hero_nature_illustration_1781170769110.png" 
+            src="/assets/images/hero_nature_illustration_1781170769110.png" 
             alt="Lush green forest" 
             className="w-full h-full object-cover object-left 2xl:object-center mix-blend-multiply"
           />
@@ -178,7 +178,7 @@ export default function LandingPage({ onTakeAction }: LandingPageProps) {
            </div>
            <div className="w-full lg:w-1/2">
               <img 
-                src="/src/assets/images/jungle_toucan_illustration_1781170783166.png" 
+                src="/assets/images/jungle_toucan_illustration_1781170783166.png" 
                 alt="Tropical jungle with toucan and monkeys" 
                 className="w-full object-contain drop-shadow-2xl mix-blend-multiply" 
               />
@@ -199,7 +199,7 @@ export default function LandingPage({ onTakeAction }: LandingPageProps) {
                <button className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 hover:bg-emerald-500 hover:text-white transition-colors">
                  <HeartPulse className="w-5 h-5" />
                </button>
-               <button className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 hover:bg-emerald-500 hover:text-white transition-colors">
+               <button className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-[#emerald-500] hover:bg-emerald-500 hover:text-white transition-colors">
                  <Sparkles className="w-5 h-5" />
                </button>
             </div>
@@ -258,7 +258,7 @@ export default function LandingPage({ onTakeAction }: LandingPageProps) {
         
         <div className="w-full mt-16 relative z-10 block pointer-events-none">
           <img 
-            src="/src/assets/images/floral_footer_overlay_1781170796295.png" 
+            src="/assets/images/floral_footer_overlay_1781170796295.png" 
             alt="Floral bottom border" 
             className="w-full h-40 object-cover object-bottom opacity-90 saturate-150 contrast-125"
           />

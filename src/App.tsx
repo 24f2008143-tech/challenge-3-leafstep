@@ -959,7 +959,7 @@ export default function App() {
       {/* Aesthetic ambient eco background overlay */}
       <div 
         className="fixed inset-0 z-0 opacity-45 pointer-events-none bg-cover bg-center bg-no-repeat bg-fixed filter saturate-[0.85] contrast-[1.02]"
-        style={{ backgroundImage: "url('/src/assets/images/leafstep_bg_1781099273028.png')" }}
+        style={{ backgroundImage: "url('/assets/images/leafstep_bg_1781099273028.png')" }}
       />
       
       {/* Interactive Background wind turbines/windmills */}
@@ -1149,7 +1149,7 @@ export default function App() {
               <div className="relative bg-emerald-100 overflow-hidden py-12 px-8 sm:px-10 text-slate-900">
                 <div className="absolute right-0 bottom-0 w-1/3 h-full opacity-50 z-0">
                   <img 
-                    src="/src/assets/images/hero_nature_illustration_1781170769110.png" 
+                    src="/assets/images/hero_nature_illustration_1781170769110.png" 
                     alt="Nature background" 
                     className="w-full h-full object-cover object-left mix-blend-multiply"
                   />
@@ -1504,7 +1504,7 @@ export default function App() {
                   <div className="flex-1 lg:flex-[2] bg-emerald-500 rounded-3xl p-6 sm:p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] flex flex-col justify-between relative overflow-hidden card-canopy text-emerald-50 hover:shadow-xl transition-all duration-300">
                     <div className="absolute inset-0 z-0 opacity-40">
                       <img 
-                        src="/src/assets/images/botanical_tree_illustration_1781188651412.jpg" 
+                        src="/assets/images/botanical_tree_illustration_1781188651412.jpg" 
                         alt="Botanical Tree Illustration" 
                         className="w-full h-full object-cover"
                       />
@@ -1990,7 +1990,7 @@ export default function App() {
                 <div className="bg-emerald-100 text-slate-900 rounded-3xl p-8 relative overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] border border-emerald-100">
                   <div className="absolute right-0 bottom-0 w-1/3 h-full opacity-30 z-0">
                     <img 
-                      src="/src/assets/images/hero_nature_illustration_1781170769110.png" 
+                      src="/assets/images/hero_nature_illustration_1781170769110.png" 
                       alt="Nature background" 
                       className="w-full h-full object-cover object-left mix-blend-multiply"
                     />
@@ -2551,7 +2551,7 @@ export default function App() {
                 <div className="bg-emerald-100 border border-emerald-100 text-slate-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)]">
                   <div className="absolute right-0 bottom-0 w-1/3 h-full opacity-30 z-0">
                     <img 
-                      src="/src/assets/images/hero_nature_illustration_1781170769110.png" 
+                      src="/assets/images/hero_nature_illustration_1781170769110.png" 
                       alt="Nature background" 
                       className="w-full h-full object-cover object-left mix-blend-multiply"
                     />

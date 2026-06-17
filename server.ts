@@ -1187,8 +1187,13 @@ function updateStreak(state: any) {
     // Check if consecutive day
     const lastDate = new Date(lastActiveStr);
     const todayDate = new Date(todayStr);
+    
+    // Set both times to midnight to calculate difference in full days
+    lastDate.setHours(0, 0, 0, 0);
+    todayDate.setHours(0, 0, 0, 0);
+    
     const diffTime = Math.abs(todayDate.getTime() - lastDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
     if (diffDays === 1) {
       state.streaks.current += 1;
