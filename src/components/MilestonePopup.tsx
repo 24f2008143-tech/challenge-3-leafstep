@@ -14,7 +14,6 @@ import {
   Flame,
   Globe2
 } from "lucide-react";
-import { RANK_TIERS } from "../data/rankTiers";
 
 interface MilestonePopupProps {
   onClose: () => void;
@@ -42,13 +41,23 @@ const SHARING_TEMPLATES = (milestone: number) => [
 
 // Helper to resolve milestone tier names & icons
 const getMilestoneEmoji = (pts: number) => {
-  const tier = RANK_TIERS.find(t => t.minPoints === pts);
-  return tier ? tier.icon : "🌱";
+  if (pts <= 200) return "🌱";
+  if (pts <= 500) return "🌳";
+  if (pts <= 1000) return "🎋";
+  if (pts <= 2000) return "🛡️";
+  if (pts <= 4000) return "🌲";
+  if (pts <= 7500) return "🌍";
+  return "👑";
 };
 
 const getMilestoneLabel = (pts: number) => {
-  const tier = RANK_TIERS.find(t => t.minPoints === pts);
-  return tier ? tier.badgeName : "Eco Apprentice";
+  if (pts <= 200) return "Eco Apprentice";
+  if (pts <= 500) return "Sapling Steward";
+  if (pts <= 1000) return "Bamboo Walker";
+  if (pts <= 2000) return "Grove Guardian";
+  if (pts <= 4000) return "Forest Keeper";
+  if (pts <= 7500) return "Earth Steward";
+  return "Carbon Champion";
 };
 
 const getMilestoneImageLink = (pts: number) => {
@@ -67,7 +76,6 @@ export default function MilestonePopup({ onClose, points, milestone }: Milestone
   const templates = SHARING_TEMPLATES(milestone);
   const [selectedTemplate, setSelectedTemplate] = useState(templates[0].id);
   const [customText, setCustomText] = useState(templates[0].text);
-  const cardRef = useRef<HTMLDivElement>(null);
   
   // Custom states for clipping/sharing feedback
   const [isTextCopied, setIsTextCopied] = useState(false);
@@ -75,24 +83,6 @@ export default function MilestonePopup({ onClose, points, milestone }: Milestone
   const [copyImageSuccess, setCopyImageSuccess] = useState<boolean | null>(null);
   
   const [cardImageUrl, setCardImageUrl] = useState<string>("");
-
-  // Focus the card for screen readers and keyboard accessibility
-  useEffect(() => {
-    if (cardRef.current) {
-      cardRef.current.focus();
-    }
-  }, []);
-
-  // Listen to Escape key to close the popup
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
 
   // Clear or enable the auto-close timer based on whether the user is customizing
   useEffect(() => {
@@ -361,12 +351,7 @@ export default function MilestonePopup({ onClose, points, milestone }: Milestone
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4"
       >
         <motion.div
-          ref={cardRef}
-          tabIndex={-1}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Milestone Reached"
-          className="rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/10 flex flex-col relative overflow-hidden focus:outline-none"
+          className="rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/10 flex flex-col relative overflow-hidden"
           style={{
             background: "radial-gradient(circle at 50% 50%, #132237 0%, #0B1220 100%)",
             boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 0 30px rgba(0,0,0,0.5)"

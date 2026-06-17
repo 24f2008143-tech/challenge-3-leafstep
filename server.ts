@@ -6,7 +6,6 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
-import os from "os";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
@@ -14,19 +13,10 @@ import { GridScraperOrchestrator } from "./src/utils/GridScraperOrchestrator";
 import rateLimit from "express-rate-limit";
 import { EMISSION_FACTORS } from "./src/data/emissionFactors";
 import { updateStreak } from "./src/utils/streakUtils";
-import { getRankForPoints } from "./src/data/rankTiers";
-
-import helmet from "helmet";
-import { validateText, validateFileDataUrl } from "./src/utils/validateLog";
 
 dotenv.config();
 
 const app = express();
-app.use(helmet({
-  contentSecurityPolicy: false, // Disable CSP to avoid blocking local Vite resources and assets
-}));
-app.disable("x-powered-by");
-
 const PORT = 3000;
 
 // Strict limit for AI endpoints — 20 calls per minute per IP
@@ -134,15 +124,13 @@ async function generateContentResilient(options: any) {
 }
 
 // Paths for persistent state storage
-export const STATE_FILE_PATH = process.env.NODE_ENV === "test"
-  ? path.join(os.tmpdir(), `leafstep-test-state-${process.pid}.json`)
-  : path.join(process.cwd(), "state.json");
+const STATE_FILE_PATH = path.join(process.cwd(), "state.json");
 
 // Default initial state
 const DEFAULT_STATE = {
   user_id: "default_user",
   onboarded: false,
-  profile: null as any,
+  profile: null,
   leaf_points: 350,
   rank: "Sprouting",
   badges: ["onboarding_pioneers_badge"],
@@ -298,7 +286,19 @@ app.post("/api/gamification/award", (req, res) => {
   }
 
   // Recalculate rank based on rank thresholds:
-  state.rank = getRankForPoints(state.leaf_points);
+  // Seedling: 0-199, Sprouting: 200-499, Sapling: 500-999, Bamboo Walker: 1000-1999
+  // Grove Guardian: 2000-3999, Forest Keeper: 4000-7499, Earth Steward: 7500-14999, Carbon Champion: 15000+
+  const lp = state.leaf_points;
+  let newRank = "Seedling";
+  if (lp >= 15000) newRank = "Carbon Champion";
+  else if (lp >= 7500) newRank = "Earth Steward";
+  else if (lp >= 4000) newRank = "Forest Keeper";
+  else if (lp >= 2000) newRank = "Grove Guardian";
+  else if (lp >= 1000) newRank = "Bamboo Walker";
+  else if (lp >= 500) newRank = "Sapling";
+  else if (lp >= 200) newRank = "Sprouting";
+
+  state.rank = newRank;
   saveState(state);
   res.json({ success: true, state });
 });
@@ -451,9 +451,8 @@ app.post("/api/logs/manual", (req, res) => {
 // 5. NLP Intelligent Log Parsing via LoggerAgent
 app.post("/api/logs/nlp", async (req, res) => {
   const { text } = req.body;
-  const validation = validateText(text);
-  if (!validation.isValid) {
-    return res.status(400).json({ error: validation.error });
+  if (!text) {
+    return res.status(400).json({ error: "NLP Text is required" });
   }
 
   const state = loadState();
@@ -642,9 +641,8 @@ app.post("/api/logs/nlp", async (req, res) => {
 // 6. OCR Utility Receipt Scanning via OCRAgent
 app.post("/api/logs/ocr", async (req, res) => {
   const { fileDataUrl, fileName } = req.body;
-  const validation = validateFileDataUrl(fileDataUrl);
-  if (!validation.isValid) {
-    return res.status(400).json({ error: validation.error });
+  if (!fileDataUrl) {
+    return res.status(400).json({ error: "Base64 data is required for OCR scanning" });
   }
 
   // Expecting format "data:image/jpeg;base64,xxxx"
@@ -992,9 +990,8 @@ app.get("/api/climate-news", async (req, res) => {
 // 9. CoachAgent Chat Interface with virtual execution triggers
 app.post("/api/chat", async (req, res) => {
   const { message } = req.body;
-  const validation = validateText(message);
-  if (!validation.isValid) {
-    return res.status(400).json({ error: validation.error });
+  if (!message) {
+    return res.status(400).json({ error: "Message is required" });
   }
 
   const state = loadState();

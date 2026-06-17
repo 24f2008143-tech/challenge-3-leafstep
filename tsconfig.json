@@ -21,8 +21,6 @@
       ]
     },
     "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "strict": true,
-    "strictNullChecks": false
+    "noEmit": true
   }
 }

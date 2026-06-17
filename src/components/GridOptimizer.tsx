@@ -30,7 +30,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { AppState, ActivityLog } from "../types";
 import IndiaGridMap from "./IndiaGridMap";
 import IndiaEmissionMap from "./IndiaEmissionMap";
-import { getRankForPoints } from "../data/rankTiers";
 
 interface GridZoneData {
   region_code: string;
@@ -999,7 +998,14 @@ export default function GridOptimizer({ state, onSaveAndApplyState, triggerToast
     }
 
     // Recalculate rank locally
-    const newRank = getRankForPoints(newPoints);
+    let newRank = state.rank || "Seedling";
+    if (newPoints >= 15000) newRank = "Carbon Champion";
+    else if (newPoints >= 7500) newRank = "Earth Steward";
+    else if (newPoints >= 4000) newRank = "Forest Keeper";
+    else if (newPoints >= 2000) newRank = "Grove Guardian";
+    else if (newPoints >= 1000) newRank = "Bamboo Walker";
+    else if (newPoints >= 500) newRank = "Sapling";
+    else if (newPoints >= 200) newRank = "Sprouting";
 
     const updatedState: AppState = {
       ...state,

@@ -57,7 +57,6 @@ import LandingPage from "./components/LandingPage";
 import { motion, AnimatePresence } from "motion/react";
 import { supabaseService } from "./supabaseClient";
 import GridOptimizer from "./components/GridOptimizer";
-import { getRankForPoints, getMilestoneTiers } from "./data/rankTiers";
 
 // Custom hook to detect mobile view (< 1024px)
 function useIsMobile() {
@@ -672,7 +671,14 @@ export default function App() {
       const newPoints = prevPoints + 15;
       
       // Recalculate rank locally
-      const newRank = getRankForPoints(newPoints);
+      let newRank = state.rank || "Seedling";
+      if (newPoints >= 15000) newRank = "Carbon Champion";
+      else if (newPoints >= 7500) newRank = "Earth Steward";
+      else if (newPoints >= 4000) newRank = "Forest Keeper";
+      else if (newPoints >= 2000) newRank = "Grove Guardian";
+      else if (newPoints >= 1000) newRank = "Bamboo Walker";
+      else if (newPoints >= 500) newRank = "Sapling";
+      else if (newPoints >= 200) newRank = "Sprouting";
 
       const updatedState: AppState = {
         ...state,
@@ -1391,11 +1397,15 @@ export default function App() {
                   const leafPoints = state.leaf_points ?? 350;
                   const currentRankLabel = state.rank ?? "Sprouting";
                   
-                  const MILESTONE_LADDER = getMilestoneTiers().map(tier => ({
-                    pts: tier.minPoints,
-                    label: tier.rank,
-                    badgeName: tier.badgeName
-                  }));
+                  const MILESTONE_LADDER = [
+                    { pts: 200, label: "Sprouting", badgeName: "Eco Apprentice" },
+                    { pts: 500, label: "Sapling", badgeName: "Sapling Steward" },
+                    { pts: 1000, label: "Bamboo Walker", badgeName: "Bamboo Walker Badge" },
+                    { pts: 2000, label: "Grove Guardian", badgeName: "Forest Guardian" },
+                    { pts: 4000, label: "Forest Keeper", badgeName: "Forest Keeper Rank" },
+                    { pts: 7500, label: "Earth Steward", badgeName: "Climate Legend Master" },
+                    { pts: 15000, label: "Carbon Champion", badgeName: "Carbon Champion Status" },
+                  ];
 
                   let calculatedTierIndex = -1;
                   for (let i = 0; i < MILESTONE_LADDER.length; i++) {

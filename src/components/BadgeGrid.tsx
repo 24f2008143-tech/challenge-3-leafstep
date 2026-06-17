@@ -115,7 +115,7 @@ export default function BadgeGrid({
       y: 0,
       transition: {
         duration: 0.4,
-        ease: "easeOut" as any,
+        ease: "easeOut",
         staggerChildren: 0.05, // Stagger 0.05s between badges in the section
       },
     },
@@ -127,7 +127,7 @@ export default function BadgeGrid({
       opacity: 1,
       scale: 1,
       transition: {
-        type: "spring" as any,
+        type: "spring",
         stiffness: 280,
         damping: 18,
       },
