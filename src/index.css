@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Overriding Emerald with Dark Green */
+  --color-emerald-50: #edf4f0;
+  --color-emerald-100: #d2e4d9;
+  --color-emerald-200: #aacabc;
+  --color-emerald-300: #7aab96;
+  --color-emerald-400: #528f73;
+  --color-emerald-500: #1b5e38; /* Dark Green */
+  --color-emerald-600: #14492b; 
+  --color-emerald-700: #0f3620;
+  --color-emerald-800: #0a2315;
+  --color-emerald-900: #06160d;
+  --color-emerald-950: #030b06;
+}
+
+body {
+  background-color: #faf8f5;
+  color: #1a2e26;
+  font-family: var(--font-sans);
+}
+
+/* Custom scrollbars for dashboard comfort */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

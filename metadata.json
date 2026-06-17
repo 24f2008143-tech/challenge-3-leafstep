@@ -1,0 +1,6 @@
+{
+  "name": "Leafstep",
+  "description": "An AI-powered carbon footprint intelligence platform that turns personal climate action into achievables.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
